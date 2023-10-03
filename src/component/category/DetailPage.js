@@ -181,7 +181,7 @@ function DetailPage(props) {
             {/* <Text>({price})</Text> */}
           </View>
           <Text style={{color: 'blue', fontWeight: 'bold'}}>{description}</Text>
-          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.botprice}>
+          <Text  ellipsizeMode="tail" style={styles.botprice}>
             ${price}
           </Text>
 

@@ -11,6 +11,9 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
+import DrawerComponent from '../drawer/DrawerComponent';
+// import { NavigationContainer, DrawerActions } from '@react-navigation/native';
+import { DrawerActions } from '@react-navigation/native'
 
 import { styles } from './homeStyle';
 import Image1small from './Image1small';
@@ -19,10 +22,10 @@ import {useNavigation} from '@react-navigation/native';
 // import Error from '../Error';
 import Error from '../unavailable/Error';
 // import Modal1 from '../Modal1';
-import Modal1 from '../drawer/Modal1';
+// import Modal1 from '../drawer/Modal1';
 import {useSelector, useDispatch} from 'react-redux';
 
-function Home(props) {
+function Home() {
   const p34 = useSelector(state => {
     return state.alldata;
   });
@@ -35,17 +38,17 @@ function Home(props) {
     setLoading(false);
   }, [p34.data1]);
 
-  const openModal = () => {
-    if (log) {
-      navigation.navigate('Login1');
-      return;
-    }
-    setModalVisible(true);
-  };
+  // const openModal = () => {
+  //   if (log) {
+  //     navigation.navigate('Login1');
+  //     return;
+  //   }
+  //   setModalVisible(true);
+  // };
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  // const closeModal = () => {
+  //   setModalVisible(false);
+  // };
 
   return (
     <>
@@ -54,9 +57,22 @@ function Home(props) {
         <View style={styles.navouter}>
           <View style={styles.navbox1}>
             <View style={styles.menuouter}>
+              {/* <TouchableOpacity style={{marginRight: '10%'}} onPress={()=>{
+                  // navigation.openDrawer()
+                  // navigation.dispatch(DrawerActions.openDrawer());
+                  // navigation.navigate('DrawerComponent')
+                }}><Text>hjsdfj</Text></TouchableOpacity> */}
               <TouchableOpacity
                 style={{marginRight: '10%'}}
-                onPress={openModal}>
+                onPress={()=>{
+                  if(p34.log==true){
+                    navigation.navigate("Login1")
+                  }else{
+                    navigation.openDrawer()
+                  }
+                 
+                  // navigation.dispatch(DrawerActions.openDrawer());
+                }}>
                 <Image
                   source={require('../../Assets/Images/menu.png')}
                   style={styles.menu}
@@ -71,7 +87,8 @@ function Home(props) {
                   style={styles.menu}
                 />
               </TouchableOpacity>
-              {modalVisible && <Modal1 onClose={closeModal} />}
+              {/* {modalVisible && <Modal1 onClose={closeModal} 
+              />} */}
               <Image
                 source={require('../../Assets/Images/flipkart.png')}
                 style={styles.navflip}

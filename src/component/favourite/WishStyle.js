@@ -55,6 +55,8 @@ import {
       flexDirection: 'row',
       flexWrap: 'wrap',
       marginLeft: 2.8,
+     // alignItems:'center',
+      justifyContent:'center'
     },
   });
   

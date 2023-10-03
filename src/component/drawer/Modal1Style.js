@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-      width: '60%',
+      width: '100%',
       height: '100%',
       backgroundColor: 'white',
       // padding: 20,

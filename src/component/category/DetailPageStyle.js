@@ -39,14 +39,14 @@ import {
       justifyContent: 'space-between',
       alignItems: 'center',
       backgroundColor: 'white',
-      height: hp('90%'),
-      width: wp('100%'),
-      borderWidth: 1,
-      padding: '2%',
+      // height: hp('100%'),
+      // width: wp('100%'),
+      // borderWidth: 1,
+      padding: 9,
     },
     clickbox1: {
-      width: '100%',
-  
+      width: wp('100%'),
+  height:hp('10%'),
       flexDirection: 'row',
       //alignItems:'flex-end',
       justifyContent: 'flex-end',
@@ -55,7 +55,7 @@ import {
     favout: {
       //backgroundColor: "#FF4200",
       padding: 5,
-  
+      height: hp('5%'),
       width: '20%',
     },
     favred: {
@@ -64,7 +64,7 @@ import {
       objectFit: 'contain',
     },
     mainimg: {
-      height: '50%',
+      height:   hp('40%'),
       width: '70%',
       borderWidth: 1,
       paddingTop: 1,
@@ -73,7 +73,7 @@ import {
     },
     bottomout: {
       backgroundColor: 'white',
-      height: '40%',
+      //height: hp('50%'),
       width: '100%',
       // borderWidth: 1,
       //backgroundColor:'red',
