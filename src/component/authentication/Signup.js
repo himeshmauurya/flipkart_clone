@@ -18,10 +18,9 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import IMAGES from '../../Assets';
+import {NAV_PAGE} from '../../CONSTANT/String';
 
-const image = {
-  uri: `https://cdn.pixabay.com/photo/2020/02/06/01/52/frame-4822807_1280.png`,
-};
 
 const Signup = () => {
   const navigation = useNavigation();
@@ -30,9 +29,6 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confpassword, setConfPassword] = useState('');
-  //const [profileImage, setProfileImage] = useState(null);
-  //const [isDate, setIsDate] = useState(false);
-  //const [da, setDa] = useState(new Date());
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const [firstnamecheck, setFirstnamecheck] = useState(false);
@@ -64,8 +60,6 @@ const Signup = () => {
       lastname: lastname,
       email: email.toLowerCase(),
       password: password,
-      // date: t11,
-      //profileImage: profileImage,
     };
 
     const getname = async () => {
@@ -101,30 +95,150 @@ const Signup = () => {
       Alert.alert('please match the passwords');
     }
   };
+  const goBackPage = () => {
+    navigation.goBack();
+  };
+  const blurFirstName = () => {
+    const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
+    let len = firstname.length;
 
+    if (!nameRegex.test(firstname) || len > 30) {
+      setFirstnamecheck(true);
+    } else {
+      setFirstnamecheck(false);
+    }
+
+    setCheckBlur(false);
+  };
+  const changeFirstName = text => {
+    if (text.endsWith(' ')) {
+      setFirstname(text.trimEnd());
+      return;
+    }
+    const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
+    let len = text.length;
+
+    if (!nameRegex.test(text) || len > 30) {
+      setFirstnamecheck(true);
+    } else {
+      setFirstnamecheck(false);
+    }
+
+    setFirstname(text.trim());
+  };
+
+  const blurLastName = () => {
+    const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
+    let len = lastname.length;
+
+    if (!nameRegex.test(lastname) || len > 30) {
+      setLastnamecheck(true);
+    } else {
+      setLastnamecheck(false);
+    }
+
+    setLastBlur(false);
+  };
+
+  const changeLastName = text => {
+    if (text.endsWith(' ')) {
+      setLastname(text.trimEnd());
+      return;
+    }
+    const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
+    let len = text.length;
+
+    if (!nameRegex.test(text) || len > 30) {
+      setLastnamecheck(true);
+    } else {
+      setLastnamecheck(false);
+    }
+
+    setLastname(text.trim());
+  };
+  const blurEmail = () => {
+    const emailRegex = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
+    if (!emailRegex.test(email)) {
+      setMailcheck(true);
+    } else {
+      setMailcheck(false);
+    }
+
+    setEmailBlur(false);
+  };
+
+  const changeEmail = text => {
+    if (text.endsWith(' ')) {
+      setEmail(text.trimEnd());
+      return;
+    }
+    const emailRegex = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
+    if (!emailRegex.test(text)) {
+      setMailcheck(true);
+    } else {
+      setMailcheck(false);
+    }
+
+    setEmail(text.trim());
+  };
+
+  const blurPass = () => {
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      setPasscheck(true);
+    } else {
+      setPasscheck(false);
+    }
+
+    setPassBlur(false);
+  };
+
+  const changePass = text => {
+    if (text.endsWith(' ')) {
+      setPassword(text.trimEnd());
+      return;
+    }
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(text)) {
+      setPasscheck(true);
+    } else {
+      setPasscheck(false);
+    }
+
+    setPassword(text.trim());
+  };
+
+  const changeConfPass = text => {
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(text)) {
+      setConfPasscheck(true);
+    } else {
+      setConfPasscheck(false);
+    }
+
+    setConfPassword(text);
+  };
+  const gotolog = () => {
+    navigation.navigate(NAV_PAGE.LOGIN);
+  };
   return (
-    // <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+    
     <ScrollView contentContainerStyle={styles.container}>
-      {/* <View style={{ flexDirection: 'row' }}> */}
       <View style={styles.navback}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <Image
-            source={require('../../Assets/Images/back.png')}
-            style={styles.backimg}
-          />
+        <TouchableOpacity onPress={goBackPage}>
+          <Image source={IMAGES.BACK} style={styles.backimg} />
         </TouchableOpacity>
       </View>
-      <Image
-        source={require('../../Assets/Images/flip_wh.jpg')}
-        style={styles.profileImage}
-      />
-
-      {/* </View> */}
+      <Image source={IMAGES.FLIP_WH} style={styles.profileImage} />
       <View style={styles.viewouter}>
-        {/* <Image source={require('.././sign1.png')} style={{width:'40%',height:'10%',marginBottom:10}} /> */}
         <Text style={styles.regtext}>Register Now</Text>
         <View style={{margin: 30}}>
           <TextInput
@@ -133,37 +247,11 @@ const Signup = () => {
             spellCheck={false}
             autoCapitalize="none"
             value={firstname}
-            onBlur={() => {
-              const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
-              let len = firstname.length;
-
-              if (!nameRegex.test(firstname) || len > 30) {
-                setFirstnamecheck(true);
-              } else {
-                setFirstnamecheck(false);
-              }
-
-              setCheckBlur(false);
-            }}
-            onChangeText={text => {
-              if (text.endsWith(' ')) {
-                setFirstname(text.trimEnd());
-                return;
-              }
-              const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
-              let len = text.length;
-
-              if (!nameRegex.test(text) || len > 30) {
-                setFirstnamecheck(true);
-              } else {
-                setFirstnamecheck(false);
-              }
-
-              setFirstname(text.trim());
-            }}
+            onBlur={blurFirstName}
+            onChangeText={changeFirstName}
           />
           {firstnamecheck ? (
-            <Text style={{color: 'red', maxWidth: '82%'}}>
+            <Text style={styles.firstnamechecktext}>
               Name should be a minimum of 2 characters, and it should not
               contain numbers, spaces, or special characters. Maximum character
               limit is 30.
@@ -178,37 +266,11 @@ const Signup = () => {
             value={lastname}
             autoCapitalize="none"
             spellCheck={false}
-            onBlur={() => {
-              const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
-              let len = lastname.length;
-
-              if (!nameRegex.test(lastname) || len > 30) {
-                setLastnamecheck(true);
-              } else {
-                setLastnamecheck(false);
-              }
-
-              setLastBlur(false);
-            }}
-            onChangeText={text => {
-              if (text.endsWith(' ')) {
-                setLastname(text.trimEnd());
-                return;
-              }
-              const nameRegex = /^[a-zA-Z]+[a-zA-Z]+$/;
-              let len = text.length;
-
-              if (!nameRegex.test(text) || len > 30) {
-                setLastnamecheck(true);
-              } else {
-                setLastnamecheck(false);
-              }
-
-              setLastname(text.trim());
-            }}
+            onBlur={blurLastName}
+            onChangeText={changeLastName}
           />
           {lastnamecheck ? (
-            <Text style={{color: 'red', maxWidth: '82%'}}>
+            <Text style={styles.firstnamechecktext}>
               Name should be a minimum of 2 characters, and it should not
               contain numbers, spaces, or special characters. Maximum character
               limit is 30.
@@ -222,38 +284,12 @@ const Signup = () => {
             autoCapitalize="none"
             value={email}
             spellCheck={false}
-            onBlur={() => {
-              const emailRegex =
-                /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-
-              if (!emailRegex.test(email)) {
-                setMailcheck(true);
-              } else {
-                setMailcheck(false);
-              }
-
-              setEmailBlur(false);
-            }}
-            onChangeText={text => {
-              if (text.endsWith(' ')) {
-                setEmail(text.trimEnd());
-                return;
-              }
-              const emailRegex =
-                /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-
-              if (!emailRegex.test(text)) {
-                setMailcheck(true);
-              } else {
-                setMailcheck(false);
-              }
-
-              setEmail(text.trim());
-            }}
+            onBlur={blurEmail}
+            onChangeText={changeEmail}
             keyboardType="email-address"
           />
           {mailcheck ? (
-            <Text style={{color: 'red', maxWidth: '82%'}}>
+            <Text style={styles.firstnamechecktext}>
               Email should follow the format abc@xyz.com.
             </Text>
           ) : (
@@ -261,50 +297,24 @@ const Signup = () => {
           )}
           <View style={styles.sectionStyle}>
             <TextInput
-              style={{flex: 1, marginLeft: 9}}
+              style={styles.passinput}
               placeholder="Password"
               autoCapitalize="none"
-              onBlur={() => {
-                const passwordRegex =
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-                if (!passwordRegex.test(password)) {
-                  setPasscheck(true);
-                } else {
-                  setPasscheck(false);
-                }
-
-                setPassBlur(false);
-              }}
-              onChangeText={text => {
-                if (text.endsWith(' ')) {
-                  setPassword(text.trimEnd());
-                  return;
-                }
-                const passwordRegex =
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-                if (!passwordRegex.test(text)) {
-                  setPasscheck(true);
-                } else {
-                  setPasscheck(false);
-                }
-
-                setPassword(text.trim());
-              }}
+              onBlur={blurPass}
+              onChangeText={changePass}
               secureTextEntry={!isPasswordVisible}
             />
 
             <TouchableOpacity onPress={handleImageClick}>
               {!isPasswordVisible ? (
-                <Text style={{marginRight: 9, maxWidth: '82%'}}>Show</Text>
+                <Text style={styles.showtext5}>Show</Text>
               ) : (
-                <Text style={{marginRight: 9}}>Hide</Text>
+                <Text style={styles.hidetext5}>Hide</Text>
               )}
             </TouchableOpacity>
           </View>
           {passcheck ? (
-            <Text style={{color: 'red', marginTop: 0, maxWidth: '82%'}}>
+            <Text style={styles.passcheck5}>
               A password should contain at least eight characters, including at
               least one number, and include both lowercase and uppercase letters
               and special characters.
@@ -315,36 +325,24 @@ const Signup = () => {
 
           <View style={styles.sectionStyle}>
             <TextInput
-              style={{flex: 1, marginLeft: 9}}
+              style={styles.passinput}
               placeholder="Confirm Password"
               autoCapitalize="none"
-              onChangeText={text => {
-                const passwordRegex =
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-                if (!passwordRegex.test(text)) {
-                  setConfPasscheck(true);
-                } else {
-                  setConfPasscheck(false);
-                }
-
-                setConfPassword(text);
-              }}
+              onChangeText={changeConfPass}
               secureTextEntry={!isPasswordVisible1}
               onEndEditing={handleEnterPress}
-              //onBlur={handleEnterPress}
             />
 
             <TouchableOpacity onPress={handleImageClick1}>
               {!isPasswordVisible1 ? (
-                <Text style={{marginRight: 9}}>Show</Text>
+                <Text style={styles.hidetext5}>Show</Text>
               ) : (
-                <Text style={{marginRight: 9}}>Hide</Text>
+                <Text style={styles.hidetext5}>Hide</Text>
               )}
             </TouchableOpacity>
           </View>
           {confpasscheck ? (
-            <Text style={{color: 'red', marginTop: 0, maxWidth: '82%'}}>
+            <Text style={styles.passcheck5}>
               A password should contain at least eight characters, including at
               least one number, and include both lowercase and uppercase letters
               and special characters.
@@ -361,7 +359,7 @@ const Signup = () => {
           <Text style={styles.signuptext}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Login1')}>
+        <TouchableOpacity onPress={gotolog}>
           <Text style={styles.golog}>Go to login page</Text>
         </TouchableOpacity>
       </View>
@@ -380,6 +378,26 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     justifyContent: 'center',
+  },
+  firstnamechecktext: {
+    color: 'red',
+    maxWidth: '82%',
+  },
+  passinput: {
+    flex: 1,
+    marginLeft: 9,
+  },
+  showtext5: {
+    marginRight: 9,
+    maxWidth: '82%',
+  },
+  hidetext5: {
+    marginRight: 9,
+  },
+  passcheck5: {
+    color: 'red',
+    marginTop: 0,
+    maxWidth: '82%',
   },
   profileImage: {
     width: '50%',

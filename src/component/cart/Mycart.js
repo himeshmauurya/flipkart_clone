@@ -10,6 +10,8 @@ import {
   Alert,
   Button,
 } from 'react-native';
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 import { styles } from './MycartStyle';
 import Cartitem from './Cartitem';
 import {
@@ -38,18 +40,21 @@ function Mycart(props) {
   });
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  // const {data1,setData1,tot,cc,settot,setcc}=useContext(MyContext)
   const [filt, setfilt] = useState([]);
-
+function goback(){
+  navigation.goBack();
+}
+function placeorderon(){
+  Alert.alert('your order is placed');
+  dispatch(emptycart());
+}
   return (
     <>
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
+          onPress={goback}>
           <Image
-            source={require('../../Assets/Images/back.png')}
+            source={IMAGES.BACK}
             style={styles.cartback}
           />
         </TouchableOpacity>
@@ -82,10 +87,7 @@ function Mycart(props) {
             </View>
             <View style={styles.butcont}>
               <TouchableOpacity
-                onPress={() => {
-                  Alert.alert('your order is placed');
-                  dispatch(emptycart());
-                }}
+                onPress={placeorderon}
                 activeOpacity={0.7}
                 style={styles.butact}>
                 <Text style={styles.butacttext}>Place Order</Text>

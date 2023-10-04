@@ -11,12 +11,9 @@ import {
   Alert,
   Button,
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 import {useSelector, useDispatch} from 'react-redux';
-//import { MyContext } from './MyProvider';
 import { styles } from './Image1smallStyle';
 function Image1small(props) {
   const p34 = useSelector(state => {
@@ -27,13 +24,13 @@ function Image1small(props) {
   const navigation = useNavigation();
   const [fav, setfav] = useState(false);
   const {data1, log, cc, tot} = p34;
-
+  function getDetail() {
+    navigation.navigate(NAV_PAGE.DETAILPAGE, {val2: props.value2});
+  }
   return (
     <TouchableOpacity
       activeOpacity={1}
-      onPress={() => {
-        navigation.navigate('DetailPage', {val2: props.value2});
-      }}>
+      onPress={getDetail}>
       <View style={styles.container}>
         <Image source={{uri: image}} style={styles.imgsmall} />
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.imgtitle}>

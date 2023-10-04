@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {aaddapidata} from '../redux/Myslice';
-
+import { URL_API } from '../../CONSTANT/String';
 import Navst1 from './Navst1';
 function Api1() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const apiUrl = `https://fakestoreapi.com/products`;
+    const apiUrl = URL_API.URL_PRODUCT;
     fetch(apiUrl)
       .then(response => response.json())
       .then(responseData => {

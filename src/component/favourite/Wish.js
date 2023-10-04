@@ -10,21 +10,16 @@ import {
   Alert,
   Button,
 } from 'react-native';
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 import { styles } from './WishStyle';
-// import Wishimage from './Wishimage';
 import Image1 from '../category/Image1';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {aaddapidata, addtot, addcc, addlog} from '../redux/Myslice';
 
 function Wish(props) {
   const navigation = useNavigation();
-  //const {data1,setData1,tot,cc}=useContext(MyContext)
   const p34 = useSelector(state => {
     return state.alldata;
   });
@@ -34,25 +29,26 @@ function Wish(props) {
   useEffect(() => {
     setfiltfav(favitem);
   }, []);
-
+function wishBack(){
+  navigation.goBack();
+}
+function wishCart(){
+  navigation.navigate(NAV_PAGE.MYCART);
+}
   return (
     <>
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
+          onPress={wishBack}>
           <Image
-            source={require('../../Assets/Images/back.png')}
+            source={IMAGES.BACK}
             style={styles.backbut}
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Mycart');
-          }}>
+          onPress={wishCart}>
           <Image
-            source={require('../../Assets/Images/cart.png')}
+            source={IMAGES.CART}
             style={styles.cartimg}
           />
           <View style={styles.cartcount}>
@@ -64,7 +60,7 @@ function Wish(props) {
         <Text style={styles.titlewishlist}>My Wishlist</Text>
         <View style={styles.lockcont}>
           <Image
-            source={require('../../Assets/Images/lock.png')}
+            source={IMAGES.LOCK}
             style={styles.lockimg}
           />
           <Text> {favitem.length} items</Text>
@@ -74,7 +70,6 @@ function Wish(props) {
       <ScrollView contentContainerStyle={styles.favcont}>
         {favitem.map(val => {
           return <Image1 key={val.id} value2={val} pagedata="wish"/>;
-          //return <Wishimage key={val.id} value8={val} value9={setfiltfav} />;
         })}
       </ScrollView>
     </>

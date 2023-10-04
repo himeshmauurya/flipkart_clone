@@ -15,6 +15,18 @@ import {
       padding: '2%',
       borderColor: 'lightgrey',
     },
+    imgbottom:{
+      marginBottom: 2
+    },
+    addtextimg1:{
+      color: 'white', textAlign: 'center'
+    },
+    addtextchange:{
+      color: 'white', textAlign: 'center',fontSize:14,fontWeight:'bold'
+    },
+    starsize:{
+      height: hp('2%'), width: wp('4%')
+    },
     wishbox1: {
       width: '100%',
       flexDirection: 'row',

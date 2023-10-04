@@ -15,16 +15,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
+import {NAV_PAGE} from '../../CONSTANT/String';
+import IMAGES from '../../Assets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {MyContext} from './MyProvider';
-
 import {useSelector, useDispatch} from 'react-redux';
 import {aaddapidata, addtot, addcc, addlog} from '../redux/Myslice';
-const image = {
-  uri: `https://images.unsplash.com/photo-1514064019862-23e2a332a6a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1428&q=80`,
-};
 
 const Login1 = ({navigation}) => {
   const p34 = useSelector(state => {
@@ -37,8 +33,6 @@ const Login1 = ({navigation}) => {
   const [isPasswordVisible2, setIsPasswordVisible2] = useState(false);
   const [mailcheck, setMailcheck] = useState(false);
   const [passcheck, setPasscheck] = useState(false);
-  // const {log,setlog} = useContext(MyContext);
-  //const {log,setlog} = useContext(MyContext);
   const handleSignup = () => {
     if (email === '' || password === '') {
       Alert.alert('Provide correct email/password');
@@ -54,9 +48,7 @@ const Login1 = ({navigation}) => {
       });
 
       if (dfg != null && dfg.length > 0) {
-        //Alert.alert(JSON.stringify(dfg));
-        navigation.navigate('Home');
-        //setlog(false)
+        navigation.navigate(NAV_PAGE.HOME);
         dispatch(addlog(false));
       } else {
         Alert.alert('Provide correct email/password');
@@ -68,16 +60,34 @@ const Login1 = ({navigation}) => {
   const handleImageClick1 = () => {
     setIsPasswordVisible2(!isPasswordVisible2);
   };
+  const handleEmail = text => {
+    const emailRegex = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+    if (!emailRegex.test(text)) {
+      setMailcheck(true);
+    } else {
+      setMailcheck(false);
+    }
+    setEmail(text.trim());
+  };
 
+  const handleconfPass = text => {
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(text)) {
+      setPasscheck(true);
+    } else {
+      setPasscheck(false);
+    }
+    setPassword(text.trim());
+  };
+
+  const goTOSignup = () => {
+    navigation.navigate(NAV_PAGE.SIGNUP);
+  };
   return (
-    // <ImageBackground source={image} resizeMode="cover" style={styles.image}>
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      {/* <Image source={require('./ab123.jpeg')} style={styles.profilePhoto} /> */}
-
-      <Image
-        source={require('../../Assets/Images/flip_wh.jpg')}
-        style={styles.profileImage}
-      />
+      <Image source={IMAGES.FLIP_WH} style={styles.profileImage} />
 
       <View style={styles.outerbox}>
         <Text style={styles.loginhere}>Login Here</Text>
@@ -85,16 +95,7 @@ const Login1 = ({navigation}) => {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            onChangeText={text => {
-              const emailRegex =
-                /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-              if (!emailRegex.test(text)) {
-                setMailcheck(true);
-              } else {
-                setMailcheck(false);
-              }
-              setEmail(text.trim());
-            }}
+            onChangeText={handleEmail}
             keyboardType="email-address"
           />
           {mailcheck ? (
@@ -106,31 +107,21 @@ const Login1 = ({navigation}) => {
           )}
           <View style={styles.sectionStyle}>
             <TextInput
-              style={{flex: 1, marginLeft: 9}}
+              style={styles.confpasscheck}
               placeholder="Confirm Password"
-              onChangeText={text => {
-                const passwordRegex =
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-                if (!passwordRegex.test(text)) {
-                  setPasscheck(true);
-                } else {
-                  setPasscheck(false);
-                }
-                setPassword(text.trim());
-              }}
+              onChangeText={handleconfPass}
               secureTextEntry={!isPasswordVisible2}
             />
             <TouchableOpacity onPress={handleImageClick1}>
               {!isPasswordVisible2 ? (
-                <Text style={{marginRight: 9}}>Show</Text>
+                <Text style={styles.margnine}>Show</Text>
               ) : (
-                <Text style={{marginRight: 9}}>Hide</Text>
+                <Text style={styles.margnine}>Hide</Text>
               )}
             </TouchableOpacity>
           </View>
           {passcheck ? (
-            <Text style={{color: 'red', marginTop: 0, maxWidth: '82%'}}>
+            <Text style={styles.passtext}>
               A password contains at least eight characters, including at least
               one number and includes both lower and uppercase letters and
               special characters
@@ -145,7 +136,7 @@ const Login1 = ({navigation}) => {
           style={styles.butouter}>
           <Text style={styles.logtext}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+        <TouchableOpacity onPress={goTOSignup}>
           <Text style={styles.newuser}>New User? Signup</Text>
         </TouchableOpacity>
       </View>
@@ -166,10 +157,20 @@ const styles = StyleSheet.create({
     marginBottom: hp('8%'),
     objectFit: 'contain',
   },
-
+  confpasscheck: {
+    flex: 1,
+    marginLeft: 9,
+  },
+  margnine: {
+    marginRight: 9,
+  },
+  passtext: {
+    color: 'red',
+    marginTop: 0,
+    maxWidth: '82%',
+  },
   input: {
     height: 40,
-    // width:'100%',
     borderWidth: 0.5,
     borderColor: 'black',
     borderRadius: 5,

@@ -7,10 +7,19 @@ export const styles = StyleSheet.create({
     container: {
       width: wp('100%'),
     },
+    mycc29:{
+      color: 'white', textAlign: 'center'
+    },
     navouter: {
       backgroundColor: '#047BD5',
       height: hp('10%'),
       alignItems: 'center',
+    },
+    drawercontainer:{
+      marginRight: '10%'
+    },
+    favouter17:{
+      flexDirection: 'row', alignItems: 'center'
     },
     navbox1: {
       flexDirection: 'row',

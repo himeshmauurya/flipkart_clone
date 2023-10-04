@@ -10,14 +10,10 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 const {width, height} = Dimensions.get('window');
 import { styles } from './Modal1Style';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-
 import {useSelector, useDispatch} from 'react-redux';
 import {aaddapidata, addtot, addcc, addlog} from '../redux/Myslice';
 
@@ -27,15 +23,15 @@ const DrawerComponent = ({navigation}) => {
       });
       const {data1, log, cc, tot} = p34;
       const dispatch = useDispatch();
-      // const navigation = useNavigation();
-      //console.log("object")
+    
+      
   return (
     <View>
       <View style={styles.container}>
         <View style={styles.modalContent}>
           <View style={styles.modbox1}>
             <Image
-              source={require('../../Assets/Images/logo.png')}
+              source={IMAGES.LOGO}
               style={styles.modlogo}
             />
           </View>
@@ -45,12 +41,12 @@ const DrawerComponent = ({navigation}) => {
                 style={styles.box1}
                 onPress={() => {
                   navigation.closeDrawer()
-                  navigation.navigate('Wish');
+                  navigation.navigate(NAV_PAGE.WISH);
                 }}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={styles.gotorow}>
                   <Image
                     style={styles.modimg1}
-                    source={require('../../Assets/Images/heart.png')}
+                    source={IMAGES.HEART}
                   />
                   <Text style={styles.modtext}>Favourite</Text>
                 </View>
@@ -59,12 +55,12 @@ const DrawerComponent = ({navigation}) => {
                 style={styles.box1}
                 onPress={() => {
                   navigation.closeDrawer()
-                  navigation.navigate('Mycart');
+                  navigation.navigate(NAV_PAGE.MYCART);
                 }}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={styles.gotorow}>
                   <Image
                     style={styles.modimg1}
-                    source={require('../../Assets/Images/carts.png')}
+                    source={IMAGES.CARTS}
                   />
                   <Text style={styles.modtext}>Cart</Text>
                 </View>
@@ -73,15 +69,15 @@ const DrawerComponent = ({navigation}) => {
                 style={styles.box1}
                 onPress={() => {
                  
-                  navigation.navigate('Login1');
+                  navigation.navigate(NAV_PAGE.LOGIN);
                   navigation.closeDrawer()
-                  // setlog(true);
+                
                   dispatch(addlog(true));
                 }}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={styles.gotorow}>
                   <Image
                     style={styles.modimg1}
-                    source={require('../../Assets/Images/logout.png')}
+                    source={IMAGES.LOGOUT}
                   />
                   <Text style={styles.modtext}>Signout</Text>
                 </View>
@@ -90,13 +86,13 @@ const DrawerComponent = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Login1');
+                navigation.navigate(NAV_PAGE.LOGIN);
                 navigation.closeDrawer()
               }}
               style={styles.logoutcont}>
               <Image
-                style={{height: 30, width: 30}}
-                source={require('../../Assets/Images/logouts23.png')}
+                style={styles.imgsize5}
+                source={IMAGES.LOGOUTS23}
               />
               <Text style={styles.logouttext}>Logout</Text>
             </TouchableOpacity>

@@ -1,4 +1,3 @@
-
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Button,
@@ -6,6 +5,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   View,
+  StyleSheet,
 } from 'react-native';
 import {Text} from 'react-native';
 import {Dimensions} from 'react-native';
@@ -51,21 +51,14 @@ const Carousel1 = () => {
 
   const _renderItem = ({item, index}) => {
     return (
-      <View style={{justifyContent:'center',alignItems:'center'}}>
-        <Image
-          source={item.image}
-          style={{
-            height: hp('30%'),
-            width: wp('90%'),
-            objectFit: 'contain',
-          }}
-        />
+      <View style={styles.imgpos}>
+        <Image source={item.image} style={styles.imagecarousel} />
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'space-between'}}>
+    <SafeAreaView style={styles.safe}>
       <Carousel
         ref={_carousel}
         data={data}
@@ -74,20 +67,13 @@ const Carousel1 = () => {
         itemWidth={Dimensions.get('window').width}
         onSnapToItem={index => setActiveDotIndex(index)}
       />
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+      <View style={styles.paginate}>
         <Pagination
           carouselRef={_carousel}
           activeDotIndex={activeDotIndex}
           dotsLength={5}
-          dotStyle={{
-            width: 15,
-            backgroundColor: 'orange',
-          }}
-          inactiveDotStyle={{
-            width: 10,
-            height: 10,
-            backgroundColor: 'gray',
-          }}
+          dotStyle={styles.dotstylecarousel}
+          inactiveDotStyle={styles.inactivestyle}
         />
       </View>
     </SafeAreaView>
@@ -95,3 +81,31 @@ const Carousel1 = () => {
 };
 
 export default Carousel1;
+export const styles = StyleSheet.create({
+  imagecarousel: {
+    height: hp('30%'),
+    width: wp('90%'),
+    objectFit: 'contain',
+  },
+  imgpos: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  safe: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  paginate: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  dotstylecarousel: {
+    width: 15,
+    backgroundColor: 'orange',
+  },
+  inactivestyle: {
+    width: 10,
+    height: 10,
+    backgroundColor: 'gray',
+  },
+});

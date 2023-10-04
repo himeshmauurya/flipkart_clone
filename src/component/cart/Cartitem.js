@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useContext, useEffect, useState} from 'react';
+import { NAV_PAGE } from '../../CONSTANT/String';
 import {
   Text,
   View,
@@ -15,7 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { styles } from './CartitemStyle';
+import {styles} from './CartitemStyle';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -31,7 +32,8 @@ import {
   deccount,
   remcartitem,
 } from '../redux/Myslice';
-
+import IMAGES from '../../Assets';
+import { NAV } from '../../CONSTANT/String';
 function Cartitem(props) {
   const p34 = useSelector(state => {
     return state.alldata;
@@ -40,12 +42,47 @@ function Cartitem(props) {
   const {title, price, image, rating, category, id, count} = props.value3;
   const img1 = image;
   const navigation = useNavigation();
+
+  function gotodetailpage() {
+    navigation.navigate(NAV_PAGE.DETAILPAGE, {val2: props.value3});
+  }
+  function increasecount() {
+    p34.cartitem.map(val => {
+      if (val.id == id) {
+        dispatch(inccount(id));
+      }
+      return val;
+    });
+    let t2 = p34.tot + price;
+    dispatch(addtot(t2));
+  }
+  function decreasecount() {
+    p34.cartitem.map(val => {
+      if (val.id == id) {
+        //let p=val.count-1;
+        if (val.count - 1 > 0) {
+          dispatch(deccount(id));
+        } else {
+          dispatch(remcartitem(id));
+        }
+      }
+      return val;
+    });
+    let t2 = p34.tot - price;
+    dispatch(addtot(t2));
+  }
+  function removeitemfromcart() {
+    p34.cartitem.map(val => {
+      if (val.id == id) {
+        dispatch(remcartitem(id));
+      }
+    });
+  }
+  function itemready() {
+    Alert.alert('your item is ready');
+  }
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPress={() => {
-        navigation.navigate('DetailPage', {val2: props.value3});
-      }}>
+    <TouchableOpacity activeOpacity={1} onPress={gotodetailpage}>
       <View style={styles.container}>
         {/* one */}
         <View style={styles.cartbox1}>
@@ -69,7 +106,7 @@ function Cartitem(props) {
             <TouchableOpacity activeOpacity={0.7} style={styles.rateouter}>
               <Text style={styles.textrate}>{rating.rate}</Text>
               <Image
-                source={require('../../Assets/Images/star.png')}
+                source={IMAGES.STAR}
                 style={styles.cartstar}
               />
             </TouchableOpacity>
@@ -78,19 +115,9 @@ function Cartitem(props) {
         {/* two */}
         <View style={styles.cartbox3}>
           <View style={styles.incdec}>
-            <TouchableOpacity
-              onPress={() => {
-                p34.cartitem.map(val => {
-                  if (val.id == id) {
-                    dispatch(inccount(id));
-                  }
-                  return val;
-                });
-                let t2 = p34.tot + price;
-                dispatch(addtot(t2));
-              }}>
+            <TouchableOpacity onPress={increasecount}>
               <Image
-                source={require('../../Assets/Images/plus1.png')}
+                source={IMAGES.PLUS1}
                 style={styles.cartplus}
               />
             </TouchableOpacity>
@@ -98,24 +125,9 @@ function Cartitem(props) {
             <View style={styles.itemcount}>
               <Text style={styles.itemcounttext}>{count}</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                p34.cartitem.map(val => {
-                  if (val.id == id) {
-                    //let p=val.count-1;
-                    if (val.count - 1 > 0) {
-                      dispatch(deccount(id));
-                    } else {
-                      dispatch(remcartitem(id));
-                    }
-                  }
-                  return val;
-                });
-                let t2 = p34.tot - price;
-                dispatch(addtot(t2));
-              }}>
+            <TouchableOpacity onPress={decreasecount}>
               <Image
-                source={require('../../Assets/Images/minus.png')}
+                source={IMAGES.MINUS}
                 style={styles.cartminus}
               />
             </TouchableOpacity>
@@ -129,27 +141,16 @@ function Cartitem(props) {
         {/* three */}
         <View style={styles.cartbox4}>
           <TouchableOpacity
-            onPress={() => {
-              p34.cartitem.map(val => {
-                if (val.id == id) {
-                  dispatch(remcartitem(id));
-                }
-              });
-            }}
+            onPress={removeitemfromcart}
             activeOpacity={0.7}
             style={styles.rembut}>
             <Text style={styles.remtext}>Remove</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              Alert.alert('your item is ready');
-            }}
+            onPress={itemready}
             activeOpacity={0.7}
             style={styles.buybut}>
-            <Text
-              style={styles.buytext}>
-              Buy this now
-            </Text>
+            <Text style={styles.buytext}>Buy this now</Text>
           </TouchableOpacity>
         </View>
       </View>

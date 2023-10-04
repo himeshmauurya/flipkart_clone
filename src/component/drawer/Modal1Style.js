@@ -15,8 +15,14 @@ export const styles = StyleSheet.create({
       height: '100%',
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+    gotorow:{
+      flexDirection: 'row'
+    },
     modalContainer: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    imgsize5:{
+      height: 30, width: 30
     },
     modalContent: {
       width: '100%',

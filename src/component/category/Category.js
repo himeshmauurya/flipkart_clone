@@ -12,12 +12,12 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 import { styles } from './CategoryStyle';
 import Image1 from './Image1';
 import {useNavigation} from '@react-navigation/native';
 import Error from '../unavailable/Error';
-import Modal1 from '../drawer/Modal1';
 import {useSelector, useDispatch} from 'react-redux';
 
 function Category() {
@@ -32,30 +32,17 @@ function Category() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  // const {data1, setData1, cc, log, setlog} = useContext(MyContext);
   const [num1, setnum1] = useState(4);
   const [url1, seturl1] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [err, seterr] = useState(false);
-  const openModal = () => {
-    if (log) {
-      navigation.navigate('Login1');
-      return;
-    }
-    setModalVisible(true);
-  };
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
   useEffect(() => {
-    // Define the API endpoint URL
     if (search.length > 0) {
       return;
     }
     const apiUrl = `https://fakestoreapi.com/products/category/${cat}?limit=${num1}`;
 
-    // Make the GET request using fetch
     fetch(apiUrl)
       .then(response => response.json())
       .then(responseData => {
@@ -71,11 +58,10 @@ function Category() {
       .catch(error => {
         setLoading(false);
       });
-  }, [num1, search]);
+  }, [num1, search,cat]);
 
   const handleEnterPress = text => {
     let p = text.toLowerCase();
-    //console.log(p)
     if (p.trim() == '' || p.trim() == ' ' || p.length == 0) {
       seterr(false);
       setData(data);
@@ -87,7 +73,6 @@ function Category() {
         val.title.toLowerCase().includes(p)
       );
     });
-    //console.log("y",y.length)
     if (y.length > 0) {
       setData(y);
       seterr(false);
@@ -99,7 +84,7 @@ function Category() {
 
   const handleEnterPress1 = () => {
     let p = search.toLowerCase();
-    //console.log(p)
+
     if (p.trim() == '') {
       setData(data);
       return;
@@ -110,7 +95,7 @@ function Category() {
         val.title.toLowerCase().includes(p)
       );
     });
-    //console.log("y",y.length)
+    
     if (y.length > 0) {
       setData(y);
       seterr(false);
@@ -119,6 +104,19 @@ function Category() {
       seterr(true);
     }
   };
+
+  function gobackpage(){
+    navigation.goBack();
+  }
+  function gotologinpage(){
+    navigation.navigate(NAV_PAGE.LOGIN);
+  }
+  function gotowishpage(){
+    navigation.navigate(NAV_PAGE.WISH);
+  }
+  function gotocartpage(){
+    navigation.navigate(NAV_PAGE.MYCART);
+  }
   return (
     <>
       <View style={styles.container}>
@@ -126,11 +124,9 @@ function Category() {
         <View style={styles.navouter}>
           <View style={styles.navbox1}>
             <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
+              onPress={gobackpage}>
               <Image
-                source={require('../../Assets/Images/back.png')}
+                source={IMAGES.BACK}
                 style={styles.navback}
               />
             </TouchableOpacity>
@@ -139,37 +135,30 @@ function Category() {
 
             {p34.log ? (
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Login1');
-                  //setlog(false)
-                }}>
+                onPress={gotologinpage}>
                 <Image
-                  source={require('../../Assets/Images/user.png')}
+                  source={IMAGES.USER}
                   style={styles.navuser}
                 />
               </TouchableOpacity>
             ) : (
               <View style={styles.navbox2}>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Wish');
-                  }}>
+                  onPress={gotowishpage}>
                   <Image
-                    source={require('../../Assets/Images/fav_white1.png')}
+                    source={IMAGES.FAV_WHITE1}
                     style={styles.navwish}
                   />
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Mycart');
-                  }}>
+                  onPress={gotocartpage}>
                   <Image
-                    source={require('../../Assets/Images/cart.png')}
+                    source={IMAGES.CART}
                     style={styles.navcart}
                   />
                   <View style={styles.navcartcount}>
-                    <Text style={{color: 'white', textAlign: 'center'}}>
+                    <Text style={styles.mycount}>
                       {p34.cc}
                     </Text>
                   </View>
@@ -182,7 +171,7 @@ function Category() {
             <View style={styles.searchbox1}>
               <TouchableOpacity onPress={handleEnterPress1}>
                 <Image
-                  source={require('../../Assets/Images/search.png')}
+                  source={IMAGES.SEARCH}
                   style={styles.searchimg}
                 />
               </TouchableOpacity>
@@ -204,7 +193,7 @@ function Category() {
 
             <View style={styles.searchbox3}>
               <Image
-                source={require('../../Assets/Images/microphone.png')}
+                source={IMAGES.MICROPHONE}
                 style={styles.micro}
               />
             </View>
@@ -234,18 +223,14 @@ function Category() {
           }}
           numColumns={2}
           contentContainerStyle={
-            {
-              //flexDirection: 'row',
-              // flexWrap: 'wrap',
-              alignItems:'center'
-            }
+            styles.joincenter
           }
         />
       ) : (
         <Error />
       )}
       {loading ? (
-        <View style={{backgroundColor: 'white'}}>
+        <View style={styles.activeindecator}>
           <ActivityIndicator size="large" color="black" />
         </View>
       ) : (

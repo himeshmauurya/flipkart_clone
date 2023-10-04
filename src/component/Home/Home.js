@@ -11,19 +11,15 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import DrawerComponent from '../drawer/DrawerComponent';
-// import { NavigationContainer, DrawerActions } from '@react-navigation/native';
-import { DrawerActions } from '@react-navigation/native'
-
-import { styles } from './homeStyle';
+import {DrawerActions} from '@react-navigation/drawer';
+import {styles} from './homeStyle';
 import Image1small from './Image1small';
 import Carousel1 from '../carousel/Carousel1';
 import {useNavigation} from '@react-navigation/native';
-// import Error from '../Error';
 import Error from '../unavailable/Error';
-// import Modal1 from '../Modal1';
-// import Modal1 from '../drawer/Modal1';
 import {useSelector, useDispatch} from 'react-redux';
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 
 function Home() {
   const p34 = useSelector(state => {
@@ -32,24 +28,38 @@ function Home() {
   const {data1, log, cc, tot} = p34;
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
 
+  function clickDrawer() {
+    if (p34.log == true) {
+      navigation.navigate(NAV_PAGE.LOGIN);
+    } else {
+      navigation.openDrawer();
+    }
+  }
+  function clickLogin() {
+    navigation.navigate(NAV_PAGE.LOGIN);
+  }
+  function clickWish() {
+    navigation.navigate(NAV_PAGE.WISH);
+  }
+  function clickCart() {
+    navigation.navigate(NAV_PAGE.MYCART);
+  }
+  function clickMen() {
+    navigation.navigate(NAV_PAGE.CATEGORY, {cat: `men's clothing`});
+  }
+  function clickWomen() {
+    navigation.navigate(NAV_PAGE.CATEGORY, {cat: `women's clothing`});
+  }
+  function clickJewellary() {
+    navigation.navigate(NAV_PAGE.CATEGORY, {cat: `jewelery`});
+  }
+  function clickElectronics() {
+    navigation.navigate(NAV_PAGE.CATEGORY, {cat: `electronics`});
+  }
   useEffect(() => {
     setLoading(false);
   }, [p34.data1]);
-
-  // const openModal = () => {
-  //   if (log) {
-  //     navigation.navigate('Login1');
-  //     return;
-  //   }
-  //   setModalVisible(true);
-  // };
-
-  // const closeModal = () => {
-  //   setModalVisible(false);
-  // };
-
   return (
     <>
       <View style={styles.container}>
@@ -57,77 +67,52 @@ function Home() {
         <View style={styles.navouter}>
           <View style={styles.navbox1}>
             <View style={styles.menuouter}>
-              {/* <TouchableOpacity style={{marginRight: '10%'}} onPress={()=>{
-                  // navigation.openDrawer()
-                  // navigation.dispatch(DrawerActions.openDrawer());
-                  // navigation.navigate('DrawerComponent')
-                }}><Text>hjsdfj</Text></TouchableOpacity> */}
               <TouchableOpacity
-                style={{marginRight: '10%'}}
-                onPress={()=>{
-                  if(p34.log==true){
-                    navigation.navigate("Login1")
-                  }else{
-                    navigation.openDrawer()
-                  }
-                 
-                  // navigation.dispatch(DrawerActions.openDrawer());
-                }}>
+                style={styles.drawercontainer}
+                onPress={clickDrawer}>
                 <Image
-                  source={require('../../Assets/Images/menu.png')}
+                  source={IMAGES.MENU}
                   style={styles.menu}
                 />
                 <Image
-                  source={require('../../Assets/Images/menu.png')}
+                  source={IMAGES.MENU}
                   style={styles.menu}
                 />
 
                 <Image
-                  source={require('../../Assets/Images/menu.png')}
+                  source={IMAGES.MENU}
                   style={styles.menu}
                 />
               </TouchableOpacity>
-              {/* {modalVisible && <Modal1 onClose={closeModal} 
-              />} */}
               <Image
-                source={require('../../Assets/Images/flipkart.png')}
+                source={IMAGES.FLIPKART}
                 style={styles.navflip}
               />
             </View>
             <View style={styles.navbox2}>
               {log ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Login1');
-                    //setlog(false)
-                  }}>
+                <TouchableOpacity onPress={clickLogin}>
                   <Image
-                    source={require('../../Assets/Images/user.png')}
+                    source={IMAGES.USER}
                     style={styles.navuser}
                   />
                 </TouchableOpacity>
               ) : (
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate('Wish');
-                    }}>
+                <View style={styles.favouter17}>
+                  <TouchableOpacity onPress={clickWish}>
                     <Image
-                      source={require('../../Assets/Images/fav_white1.png')}
+                      source={IMAGES.FAV_WHITE1}
                       style={styles.navfev}
                     />
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate('Mycart');
-                    }}>
+                  <TouchableOpacity onPress={clickCart}>
                     <Image
-                      source={require('../../Assets/Images/cart.png')}
+                      source={IMAGES.CART}
                       style={styles.navcart}
                     />
                     <View style={styles.navcartcount}>
-                      <Text style={{color: 'white', textAlign: 'center'}}>
+                      <Text style={styles.mycc29}>
                         {cc}
                       </Text>
                     </View>
@@ -136,29 +121,20 @@ function Home() {
               )}
             </View>
           </View>
-          {/* search */}
-
-          {/* </View> */}
+          
           {/* bottom or body */}
         </View>
       </View>
       <ScrollView>
         <Carousel1 />
-        {/* banner */}
-        {/* <View style={{height:hp('20%'),width:wp('90%'),backgroundColor:'red',margin:10}}></View> */}
-
         {/* category */}
         <View style={styles.catouter}>
           <View style={styles.catbox1}>
             {/* men */}
             <View style={styles.catbox11}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Category', {cat: `men's clothing`});
-                }}
-                style={styles.men1}>
+              <TouchableOpacity onPress={clickMen} style={styles.men1}>
                 <Image
-                  source={require('../../Assets/Images/men1.jpeg')}
+                  source={IMAGES.MEN1}
                   style={styles.imgmen1}
                 />
                 <View style={{}}>
@@ -168,13 +144,9 @@ function Home() {
             </View>
             {/* women*/}
             <View style={styles.catbox11}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Category', {cat: `women's clothing`});
-                }}
-                style={styles.men1}>
+              <TouchableOpacity onPress={clickWomen} style={styles.men1}>
                 <Image
-                  source={require('../../Assets/Images/women1.jpeg')}
+                  source={IMAGES.WOMEN1}
                   style={styles.imgmen1}
                 />
                 <View style={{}}>
@@ -187,13 +159,9 @@ function Home() {
           <View style={styles.catbox1}>
             {/* jewellary */}
             <View style={styles.catbox11}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Category', {cat: `jewelery`});
-                }}
-                style={styles.men1}>
+              <TouchableOpacity onPress={clickJewellary} style={styles.men1}>
                 <Image
-                  source={require('../../Assets/Images/jewellary.jpeg')}
+                  source={IMAGES.JEWELLARY}
                   style={styles.imgmen1}
                 />
                 <View style={{}}>
@@ -203,13 +171,9 @@ function Home() {
             </View>
             {/* electronics*/}
             <View style={styles.catbox11}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Category', {cat: `electronics`});
-                }}
-                style={styles.men1}>
+              <TouchableOpacity onPress={clickElectronics} style={styles.men1}>
                 <Image
-                  source={require('../../Assets/Images/elec.jpeg')}
+                  source={IMAGES.ELEC}
                   style={styles.imgmen1}
                 />
                 <View style={{}}>

@@ -10,6 +10,8 @@ import {
   Alert,
   Button,
 } from 'react-native';
+import IMAGES from '../../Assets';
+import { NAV_PAGE } from '../../CONSTANT/String';
 import { styles } from './DetailPageStyle';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -57,7 +59,6 @@ function DetailPage(props) {
   }, [p34.favitem]);
 
   useEffect(() => {
-    //console.log("list",p34.cartitem)
     const t = p34.cartitem.filter(val => {
       return val.id == id;
     });
@@ -67,27 +68,70 @@ function DetailPage(props) {
       setadded(false);
     }
   }, [p34.cartitem]);
-
+  function gobackpage(){
+    navigation.goBack();
+  }
+  function gotologinpage(){
+    navigation.navigate(NAV_PAGE.LOGIN);
+  }
+  function gotowishpage(){
+    navigation.navigate(NAV_PAGE.WISH);
+  }
+  function gotocartpage(){
+    navigation.navigate(NAV_PAGE.MYCART);
+  }
+  function removefromfav(){
+ let t1 = p34.data1.map((val, ind) => {
+  if (val.id == id) {
+    dispatch(removefav(id));
+  }
+  return val;
+});
+  }
+  function addtofav(){
+     p34.data1.map(val => {
+      if (val.id == id) {
+        dispatch(addfav(id));
+      }
+      return val;
+    });
+  }
+  function alertPage(){
+    Alert.alert('', 'Please login to the page', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        
+      },
+      {text: 'OK', onPress: () => navigation.navigate(NAV_PAGE.LOGIN)},
+    ]);
+  }
+  function addtoacart(){
+    p34.data1.map(val => {
+      if (val.id == id) {
+        dispatch(addcart(id));
+        dispatch(addtot(p34.tot + val.price));
+      } else {
+      }
+      return val;
+    });
+  }
   return (
     <>
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
+          onPress={gobackpage}>
           <Image
-            source={require('../../Assets/Images/back.png')}
+            source={IMAGES.BACK}
             style={styles.back1}
           />
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{marginRight: 7}}
-          onPress={() => {
-            navigation.navigate('Mycart');
-          }}>
+          style={styles.marginRightpage}
+          onPress={gotocartpage}>
           <Image
-            source={require('../../Assets/Images/cart.png')}
+            source={IMAGES.CART}
             style={styles.cart1}
           />
           <View style={styles.cartcount}>
@@ -100,61 +144,32 @@ function DetailPage(props) {
           {!p34.log ? (
             fav ? (
               <TouchableOpacity
-                onPress={() => {
-                  //console.log("red")
-                  let t1 = p34.data1.map((val, ind) => {
-                    if (val.id == id) {
-                      dispatch(removefav(id));
-                    }
-                    return val;
-                  });
-                  // dispatch(aaddapidata(t1))
-                  // setfav(false)
-                }}
+                onPress={removefromfav}
                 activeOpacity={0.7}
                 style={styles.favout}>
                 <Image
-                  source={require('../../Assets/Images/fav_red.png')}
+                  source={IMAGES.FAV_RED}
                   style={styles.favred}
                 />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                onPress={() => {
-                  //console.log('white');
-                  p34.data1.map(val => {
-                    if (val.id == id) {
-                      dispatch(addfav(id));
-                    }
-                    return val;
-                  });
-                  //setfav(true)
-                  //dispatch(aaddapidata(t1))
-                }}
+                onPress={addtofav}
                 activeOpacity={0.7}
                 style={styles.favout}>
                 <Image
-                  source={require('../../Assets/Images/fav_white.png')}
+                  source={IMAGES.FAV_WHITE}
                   style={styles.favred}
                 />
               </TouchableOpacity>
             )
           ) : (
             <TouchableOpacity
-              onPress={() => {
-                Alert.alert('', 'Please login to the page', [
-                  {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    //style: 'cancel',
-                  },
-                  {text: 'OK', onPress: () => navigation.navigate('Login1')},
-                ]);
-              }}
+              onPress={alertPage}
               activeOpacity={0.7}
               style={styles.favout}>
               <Image
-                source={require('../../Assets/Images/fav_white.png')}
+                source={IMAGES.FAV_WHITE}
                 style={styles.favred}
               />
             </TouchableOpacity>
@@ -168,7 +183,7 @@ function DetailPage(props) {
           <Text
             numberOfLines={1}
             ellipsizeMode="tail"
-            style={{marginBottom: 1}}>
+            style={styles.marginBottompage}>
             {category}
           </Text>
           <View style={styles.rateout}>
@@ -178,9 +193,9 @@ function DetailPage(props) {
               style={styles.ratebut}>
               <Text style={styles.ratetext}>{rating.rate} *</Text>
             </TouchableOpacity>
-            {/* <Text>({price})</Text> */}
+            
           </View>
-          <Text style={{color: 'blue', fontWeight: 'bold'}}>{description}</Text>
+          <Text style={styles.descriptionadded}>{description}</Text>
           <Text  ellipsizeMode="tail" style={styles.botprice}>
             ${price}
           </Text>
@@ -190,23 +205,12 @@ function DetailPage(props) {
               added ? (
                 <TouchableOpacity
                   style={styles.butouter1}
-                  onPress={() => {
-                    navigation.navigate('Mycart');
-                  }}>
+                  onPress={gotocartpage}>
                   <Text style={styles.buttext}>MOVE TO CART</Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
-                  onPress={() => {
-                    p34.data1.map(val => {
-                      if (val.id == id) {
-                        dispatch(addcart(id));
-                        dispatch(addtot(p34.tot + val.price));
-                      } else {
-                      }
-                      return val;
-                    });
-                  }}
+                  onPress={addtoacart}
                   activeOpacity={0.7}
                   style={styles.addtocart}>
                   <Text style={styles.addtocarttext}>Add To Cart</Text>
@@ -214,9 +218,7 @@ function DetailPage(props) {
               )
             ) : (
               <TouchableOpacity
-                onPress={() => {
-                  Alert.alert('Please login to the page');
-                }}
+                onPress={alertPage}
                 activeOpacity={0.7}
                 style={styles.buynowout}>
                 <Text style={styles.buynowtext}>BUY NOW</Text>

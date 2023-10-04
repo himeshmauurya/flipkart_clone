@@ -8,6 +8,12 @@ import {
     container: {
       width: wp('100%'),
     },
+    joincenter:{
+      alignItems:'center'
+    },
+    mycount:{
+      color: 'white', textAlign: 'center'
+    },
     navouter: {
       backgroundColor: '#047BD5',
       height: hp('17%'),
@@ -93,5 +99,8 @@ import {
       height: hp('2.8%'),
       width: wp('5%'),
     },
+    activeindecator:{
+      backgroundColor: 'white'
+    }
   });
   
